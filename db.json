@@ -5,7 +5,9 @@
       "username": "marta",
       "displayName": "Marta Novakova",
       "bio": "Prodam a nakupuji hlavne elektroniku. Odpovidam rychle.",
-      "likes": ["u2"],
+      "likes": [
+        "u2"
+      ],
       "ratings": [
         {
           "id": "r1",
@@ -16,6 +18,18 @@
         }
       ],
       "comments": [
+        {
+          "id": "f55339a4-64b9-4156-9ff2-b9dfa8cf0a67",
+          "fromUserId": "u1",
+          "text": "pica blba",
+          "createdAt": "2026-06-02T12:48:50.253Z"
+        },
+        {
+          "id": "86ffacbe-249e-4f7b-8b18-b3f57b00003d",
+          "fromUserId": "u1",
+          "text": "213",
+          "createdAt": "2026-06-02T12:48:42.558Z"
+        },
         {
           "id": "c1",
           "fromUserId": "u3",
@@ -42,7 +56,9 @@
       "username": "jana",
       "displayName": "Jana Svobodova",
       "bio": "Delam aukce retro her a konzoli.",
-      "likes": ["u1"],
+      "likes": [
+        "u1"
+      ],
       "ratings": [
         {
           "id": "r2",
@@ -55,6 +71,17 @@
       "comments": [],
       "datingOptIn": true,
       "datingBio": "Hudba, hry a dobry kafe."
+    },
+    {
+      "id": "7d8c9bd9-b254-4a73-a5bf-5bb18096ecc4",
+      "username": "testuser",
+      "displayName": "Test User",
+      "bio": "",
+      "likes": [],
+      "ratings": [],
+      "comments": [],
+      "datingOptIn": false,
+      "datingBio": ""
     }
   ],
   "ads": [
@@ -105,12 +132,27 @@
       "status": "active",
       "createdAt": "2026-06-01T13:00:00.000Z",
       "updatedAt": "2026-06-01T13:00:00.000Z"
+    },
+    {
+      "id": "acf0ce6e-e950-493d-b863-799b3b9c9990",
+      "ownerId": "u1",
+      "type": "offer",
+      "title": "Test Ad",
+      "description": "Test Description",
+      "price": 100,
+      "location": "",
+      "status": "active",
+      "createdAt": "2026-06-02T12:45:44.942Z",
+      "updatedAt": "2026-06-02T12:45:44.942Z"
     }
   ],
   "chats": [
     {
       "id": "ch1",
-      "participants": ["u1", "u2"],
+      "participants": [
+        "u1",
+        "u2"
+      ],
       "messages": [
         {
           "id": "m1",
@@ -136,6 +178,41 @@
       "fromUserId": "u3",
       "liked": false,
       "swipedAt": "2026-06-01T10:00:00.000Z"
+    },
+    {
+      "id": "585831d5-4d6e-4830-9822-13e15c0db0c0",
+      "adId": "a3",
+      "fromUserId": "u1",
+      "liked": true,
+      "swipedAt": "2026-06-02T12:52:16.655Z"
+    },
+    {
+      "id": "c6f071a2-36e4-42e8-8bd3-0670f233fbff",
+      "adId": "a2",
+      "fromUserId": "u1",
+      "liked": true,
+      "swipedAt": "2026-06-02T12:52:17.335Z"
+    },
+    {
+      "id": "a8c5a352-f238-42fd-b084-99a01b7bc746",
+      "adId": "a1",
+      "fromUserId": "u3",
+      "liked": true,
+      "swipedAt": "2026-06-02T12:52:32.401Z"
+    },
+    {
+      "id": "4009b170-8a79-4924-99ae-32d6f00a63a5",
+      "adId": "acf0ce6e-e950-493d-b863-799b3b9c9990",
+      "fromUserId": "u3",
+      "liked": false,
+      "swipedAt": "2026-06-02T12:52:33.496Z"
+    },
+    {
+      "id": "56144998-c0e2-48c6-b1ab-6fa776a6e2f0",
+      "adId": "a4",
+      "fromUserId": "u3",
+      "liked": true,
+      "swipedAt": "2026-06-02T12:52:34.201Z"
     }
   ]
 }

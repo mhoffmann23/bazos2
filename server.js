@@ -14,6 +14,9 @@ app.use(express.json({ limit: '1mb' }));
 app.use(express.static(PUBLIC_DIR));
 
 function ensureDbShape(db) {
+  if (!db || typeof db !== 'object' || Array.isArray(db)) {
+    db = {};
+  }
   db.users = Array.isArray(db.users) ? db.users : [];
   db.ads = Array.isArray(db.ads) ? db.ads : [];
   db.chats = Array.isArray(db.chats) ? db.chats : [];
@@ -22,17 +25,26 @@ function ensureDbShape(db) {
 }
 
 function readDb() {
-  if (!fs.existsSync(DB_PATH)) {
-    const empty = ensureDbShape({});
-    fs.writeFileSync(DB_PATH, JSON.stringify(empty, null, 2));
-    return empty;
+  try {
+    if (!fs.existsSync(DB_PATH)) {
+      const empty = ensureDbShape({});
+      fs.writeFileSync(DB_PATH, JSON.stringify(empty, null, 2));
+      return empty;
+    }
+    const raw = fs.readFileSync(DB_PATH, 'utf8');
+    return ensureDbShape(JSON.parse(raw || '{}'));
+  } catch (error) {
+    console.error('Error reading database:', error);
+    return ensureDbShape({});
   }
-  const raw = fs.readFileSync(DB_PATH, 'utf8');
-  return ensureDbShape(JSON.parse(raw || '{}'));
 }
 
 function writeDb(db) {
-  fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2));
+  try {
+    fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2));
+  } catch (error) {
+    console.error('Error writing database:', error);
+  }
 }
 
 function nowIso() {
@@ -48,6 +60,7 @@ function getUser(db, userId) {
 }
 
 function decorateUser(user) {
+  if (!user) return null;
   const ratings = Array.isArray(user.ratings) ? user.ratings : [];
   const likes = Array.isArray(user.likes) ? user.likes : [];
   const ratingSum = ratings.reduce((sum, rating) => sum + (Number(rating.stars) || 0), 0);
@@ -68,6 +81,36 @@ app.get('/api/health', (req, res) => {
 app.get('/api/users', (req, res) => {
   const db = readDb();
   res.json(db.users.map((user) => decorateUser(user)));
+});
+
+app.post('/api/users', (req, res) => {
+  const db = readDb();
+  const displayName = (req.body.displayName || '').trim();
+  const username = (req.body.username || '').trim().toLowerCase();
+
+  if (!displayName || !username) {
+    return res.status(400).json({ error: 'DisplayName and Username are required' });
+  }
+
+  if (db.users.some(u => u.username === username)) {
+    return res.status(400).json({ error: 'Username already exists' });
+  }
+
+  const newUser = {
+    id: randomUUID(),
+    username,
+    displayName,
+    bio: '',
+    likes: [],
+    ratings: [],
+    comments: [],
+    datingOptIn: false,
+    datingBio: ''
+  };
+
+  db.users.push(newUser);
+  writeDb(db);
+  return res.status(201).json(decorateUser(newUser));
 });
 
 app.get('/api/users/:id', (req, res) => {

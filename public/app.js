@@ -10,6 +10,9 @@ const elements = {
   adTypeFilter: document.getElementById('adTypeFilter'),
   adsList: document.getElementById('adsList'),
   createAdForm: document.getElementById('createAdForm'),
+  createUserForm: document.getElementById('createUserForm'),
+  newUsername: document.getElementById('newUsername'),
+  newDisplayName: document.getElementById('newDisplayName'),
   chatList: document.getElementById('chatList'),
   chatMessages: document.getElementById('chatMessages'),
   createChatForm: document.getElementById('createChatForm'),
@@ -40,6 +43,12 @@ function showToast(message, isError = false) {
   elements.toast.style.borderColor = isError ? '#ff6b6b' : '#2c3240';
   elements.toast.classList.add('show');
   setTimeout(() => elements.toast.classList.remove('show'), 2200);
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
 }
 
 async function api(path, options = {}) {
@@ -98,6 +107,25 @@ async function loadUsers() {
   fillUserSelect(elements.chatUserSelect, state.users, null, state.currentUserId);
 }
 
+async function createUser(event) {
+  event.preventDefault();
+  const username = elements.newUsername.value.trim();
+  const displayName = elements.newDisplayName.value.trim();
+
+  try {
+    const user = await api('/api/users', {
+      method: 'POST',
+      body: JSON.stringify({ username, displayName })
+    });
+    elements.createUserForm.reset();
+    state.currentUserId = user.id;
+    await refreshAll();
+    showToast(`Uzivatel ${user.displayName} vytvoren`);
+  } catch (error) {
+    showToast(error.message, true);
+  }
+}
+
 async function loadAds() {
   const type = elements.adTypeFilter.value;
   const query = type ? `?type=${encodeURIComponent(type)}` : '';
@@ -108,10 +136,10 @@ async function loadAds() {
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
-      <h4>${ad.title}</h4>
-      <p>${ad.description}</p>
-      <p class="meta">Typ: ${ad.type} | Cena: ${ad.price ?? 'N/A'} | Lokace: ${ad.location || '-'}</p>
-      <p class="meta">Autor: ${getUserName(ad.ownerId)}</p>
+      <h4>${escapeHtml(ad.title)}</h4>
+      <p>${escapeHtml(ad.description)}</p>
+      <p class="meta">Typ: ${escapeHtml(ad.type)} | Cena: ${ad.price ?? 'N/A'} | Lokace: ${escapeHtml(ad.location || '-')}</p>
+      <p class="meta">Autor: ${escapeHtml(getUserName(ad.ownerId))}</p>
     `;
     elements.adsList.appendChild(card);
   });
@@ -139,6 +167,10 @@ async function createAd(event) {
 }
 
 async function loadChats() {
+  if (!state.currentUserId) {
+    elements.chatList.innerHTML = '<p class="meta">Prihlaste se pro zobrazeni chatu</p>';
+    return;
+  }
   const chats = await api(`/api/chats?userId=${state.currentUserId}`);
   elements.chatList.innerHTML = '';
 
@@ -147,8 +179,8 @@ async function loadChats() {
     listItem.className = 'list-item';
     const other = chat.participants.find((id) => id !== state.currentUserId);
     listItem.innerHTML = `
-      <strong>${getUserName(other)}</strong>
-      <span class="meta">${chat.lastMessage ? chat.lastMessage.text : 'Zadna zprava'}</span>
+      <strong>${escapeHtml(getUserName(other))}</strong>
+      <span class="meta">${escapeHtml(chat.lastMessage ? chat.lastMessage.text : 'Zadna zprava')}</span>
     `;
     listItem.addEventListener('click', () => openChat(chat.id));
     elements.chatList.appendChild(listItem);
@@ -167,8 +199,8 @@ function renderMessages(messages) {
     const item = document.createElement('div');
     item.className = `message ${message.fromUserId === state.currentUserId ? 'me' : ''}`;
     item.innerHTML = `
-      <strong>${getUserName(message.fromUserId)}</strong>
-      <div>${message.text}</div>
+      <strong>${escapeHtml(getUserName(message.fromUserId))}</strong>
+      <div>${escapeHtml(message.text)}</div>
       <div class="meta">${new Date(message.sentAt).toLocaleString()}</div>
     `;
     elements.chatMessages.appendChild(item);
@@ -215,13 +247,14 @@ async function sendMessage(event) {
 async function loadProfile() {
   const userId = elements.profileUserSelect.value || state.currentUserId;
   if (!userId) {
+    elements.profileInfo.innerHTML = '<p class="meta">Vyberte uzivatele</p>';
     return;
   }
   const { user, ads } = await api(`/api/users/${userId}`);
 
   elements.profileInfo.innerHTML = `
-    <strong>${user.displayName}</strong>
-    <p>${user.bio || 'Bez popisu'}</p>
+    <strong>${escapeHtml(user.displayName)}</strong>
+    <p>${escapeHtml(user.bio || 'Bez popisu')}</p>
     <p class="meta">Likes: ${user.likesCount} | Hodnoceni: ${user.ratingAverage} (${user.ratingCount})</p>
   `;
 
@@ -230,8 +263,8 @@ async function loadProfile() {
     const item = document.createElement('div');
     item.className = 'list-item';
     item.innerHTML = `
-      <strong>${getUserName(comment.fromUserId)}</strong>
-      <div>${comment.text}</div>
+      <strong>${escapeHtml(getUserName(comment.fromUserId))}</strong>
+      <div>${escapeHtml(comment.text)}</div>
       <div class="meta">${new Date(comment.createdAt).toLocaleString()}</div>
     `;
     elements.profileComments.appendChild(item);
@@ -242,14 +275,14 @@ async function loadProfile() {
     const item = document.createElement('div');
     item.className = 'list-item';
     item.innerHTML = `
-      <strong>${ad.title}</strong>
-      <div class="meta">${ad.type} | ${ad.price ?? 'N/A'} | ${ad.location || '-'}</div>
+      <strong>${escapeHtml(ad.title)}</strong>
+      <div class="meta">${escapeHtml(ad.type)} | ${ad.price ?? 'N/A'} | ${escapeHtml(ad.location || '-')}</div>
     `;
     elements.profileAds.appendChild(item);
   });
 
   const isOwner = state.currentUserId && state.currentUserId === user.id;
-  elements.datingToggle.checked = Boolean(isOwner && user.datingOptIn);
+  elements.datingToggle.checked = Boolean(user.datingOptIn);
   elements.datingToggle.disabled = !isOwner;
 }
 
@@ -305,14 +338,18 @@ async function commentProfile(event) {
 }
 
 async function loadDating() {
+  if (!state.currentUserId) {
+    elements.datingList.innerHTML = '<p class="meta">Prihlaste se pro zobrazeni seznamky</p>';
+    return;
+  }
   const users = await api(`/api/dating?userId=${state.currentUserId}`);
   elements.datingList.innerHTML = '';
   users.forEach((user) => {
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
-      <h4>${user.displayName}</h4>
-      <p>${user.datingBio || user.bio || 'Bez popisu'}</p>
+      <h4>${escapeHtml(user.displayName)}</h4>
+      <p>${escapeHtml(user.datingBio || user.bio || 'Bez popisu')}</p>
       <p class="meta">Likes: ${user.likesCount} | Hodnoceni: ${user.ratingAverage}</p>
     `;
     elements.datingList.appendChild(card);
@@ -333,6 +370,10 @@ async function toggleDating() {
 }
 
 async function loadSwipeAd() {
+  if (!state.currentUserId) {
+    elements.swipeCard.innerHTML = '<p class="meta">Prihlaste se pro hodnoceni</p>';
+    return;
+  }
   const { ad } = await api(`/api/swipes/ads/random?userId=${state.currentUserId}`);
   state.currentSwipeAd = ad;
   renderSwipeCard();
@@ -345,9 +386,9 @@ function renderSwipeCard() {
   }
   const ad = state.currentSwipeAd;
   elements.swipeCard.innerHTML = `
-    <h4>${ad.title}</h4>
-    <p>${ad.description}</p>
-    <p class="meta">Typ: ${ad.type} | Cena: ${ad.price ?? 'N/A'} | Lokace: ${ad.location || '-'}</p>
+    <h4>${escapeHtml(ad.title)}</h4>
+    <p>${escapeHtml(ad.description)}</p>
+    <p class="meta">Typ: ${escapeHtml(ad.type)} | Cena: ${ad.price ?? 'N/A'} | Lokace: ${escapeHtml(ad.location || '-')}</p>
   `;
 }
 
@@ -371,6 +412,11 @@ async function submitSwipe(liked) {
 }
 
 async function loadAnalyticsAds() {
+  if (!state.currentUserId) {
+    elements.analyticsAdSelect.innerHTML = '';
+    elements.analyticsResult.textContent = 'Prihlaste se.';
+    return;
+  }
   const ads = await api(`/api/ads?ownerId=${state.currentUserId}`);
   elements.analyticsAdSelect.innerHTML = '';
   ads.forEach((ad) => {
@@ -411,13 +457,19 @@ function setupTabs() {
 }
 
 async function refreshAll() {
-  await loadUsers();
-  await loadAds();
-  await loadChats();
-  await loadProfile();
-  await loadDating();
-  await loadSwipeAd();
-  await loadAnalyticsAds();
+  try {
+    await loadUsers();
+    await Promise.allSettled([
+      loadAds(),
+      loadChats(),
+      loadProfile(),
+      loadDating(),
+      loadSwipeAd(),
+      loadAnalyticsAds()
+    ]);
+  } catch (error) {
+    showToast(error.message, true);
+  }
 }
 
 function setupEvents() {
@@ -430,6 +482,7 @@ function setupEvents() {
 
   elements.adTypeFilter.addEventListener('change', loadAds);
   elements.createAdForm.addEventListener('submit', createAd);
+  elements.createUserForm.addEventListener('submit', createUser);
   elements.createChatForm.addEventListener('submit', createChat);
   elements.sendMessageForm.addEventListener('submit', sendMessage);
   elements.profileUserSelect.addEventListener('change', loadProfile);
@@ -445,11 +498,7 @@ function setupEvents() {
 async function init() {
   setupTabs();
   setupEvents();
-  try {
-    await refreshAll();
-  } catch (error) {
-    showToast(error.message, true);
-  }
+  await refreshAll();
 }
 
 document.addEventListener('DOMContentLoaded', init);

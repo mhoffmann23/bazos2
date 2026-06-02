@@ -43,37 +43,54 @@
         </div>
         <div id="adsList" class="card-grid"></div>
 
-        <form id="createAdForm" class="panel">
-          <h3>Pridat inzerat</h3>
-          <div class="form-grid">
-            <label>
-              Typ
-              <select name="type" required>
-                <option value="offer">Nabidka</option>
-                <option value="request">Poptavka</option>
-                <option value="job">Brigada</option>
-                <option value="auction">Aukce</option>
-              </select>
-            </label>
-            <label>
-              Titulek
-              <input name="title" type="text" required />
-            </label>
-            <label>
-              Popis
-              <textarea name="description" rows="3" required></textarea>
-            </label>
-            <label>
-              Cena
-              <input name="price" type="number" min="0" step="1" />
-            </label>
-            <label>
-              Lokalita
-              <input name="location" type="text" />
-            </label>
-          </div>
-          <button type="submit" class="primary">Ulozit</button>
-        </form>
+        <div class="split">
+          <form id="createAdForm" class="panel">
+            <h3>Pridat inzerat</h3>
+            <div class="form-grid">
+              <label>
+                Typ
+                <select name="type" required>
+                  <option value="offer">Nabidka</option>
+                  <option value="request">Poptavka</option>
+                  <option value="job">Brigada</option>
+                  <option value="auction">Aukce</option>
+                </select>
+              </label>
+              <label>
+                Titulek
+                <input name="title" type="text" required />
+              </label>
+              <label>
+                Popis
+                <textarea name="description" rows="3" required></textarea>
+              </label>
+              <label>
+                Cena
+                <input name="price" type="number" min="0" step="1" />
+              </label>
+              <label>
+                Lokalita
+                <input name="location" type="text" />
+              </label>
+            </div>
+            <button type="submit" class="primary">Ulozit</button>
+          </form>
+
+          <form id="createUserForm" class="panel">
+            <h3>Nova registrace</h3>
+            <div class="form-grid">
+              <label>
+                Uzivatelske jmeno
+                <input id="newUsername" type="text" required />
+              </label>
+              <label>
+                Zobrazovane jmeno
+                <input id="newDisplayName" type="text" required />
+              </label>
+            </div>
+            <button type="submit">Vytvorit uzivatele</button>
+          </form>
+        </div>
       </section>
 
       <section id="chat" class="section">
