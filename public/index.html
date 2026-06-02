@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bazos 2.0</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <h1>Bazos 2.0</h1>
+        <p class="subtitle">Monoliticka marketplace aplikace</p>
+      </div>
+      <div class="user-switcher">
+        <label for="currentUserSelect">Aktivni uzivatel</label>
+        <select id="currentUserSelect"></select>
+      </div>
+    </header>
+
+    <nav class="app-nav">
+      <button class="tab-button active" data-target="marketplace">Marketplace</button>
+      <button class="tab-button" data-target="chat">Chat</button>
+      <button class="tab-button" data-target="profile">Profil</button>
+      <button class="tab-button" data-target="dating">Seznamka</button>
+      <button class="tab-button" data-target="swipe">Hodnoceni inzeratu</button>
+    </nav>
+
+    <main>
+      <section id="marketplace" class="section active">
+        <div class="section-header">
+          <h2>Marketplace</h2>
+          <div class="filters">
+            <label for="adTypeFilter">Typ</label>
+            <select id="adTypeFilter">
+              <option value="">Vse</option>
+              <option value="offer">Nabidka</option>
+              <option value="request">Poptavka</option>
+              <option value="job">Brigada</option>
+              <option value="auction">Aukce</option>
+            </select>
+          </div>
+        </div>
+        <div id="adsList" class="card-grid"></div>
+
+        <form id="createAdForm" class="panel">
+          <h3>Pridat inzerat</h3>
+          <div class="form-grid">
+            <label>
+              Typ
+              <select name="type" required>
+                <option value="offer">Nabidka</option>
+                <option value="request">Poptavka</option>
+                <option value="job">Brigada</option>
+                <option value="auction">Aukce</option>
+              </select>
+            </label>
+            <label>
+              Titulek
+              <input name="title" type="text" required />
+            </label>
+            <label>
+              Popis
+              <textarea name="description" rows="3" required></textarea>
+            </label>
+            <label>
+              Cena
+              <input name="price" type="number" min="0" step="1" />
+            </label>
+            <label>
+              Lokalita
+              <input name="location" type="text" />
+            </label>
+          </div>
+          <button type="submit" class="primary">Ulozit</button>
+        </form>
+      </section>
+
+      <section id="chat" class="section">
+        <div class="section-header">
+          <h2>Chat</h2>
+          <form id="createChatForm" class="inline-form">
+            <label for="chatUserSelect">Zacit chat s</label>
+            <select id="chatUserSelect"></select>
+            <button type="submit">Zacit</button>
+          </form>
+        </div>
+        <div class="split">
+          <div class="panel">
+            <h3>Konverzace</h3>
+            <div id="chatList" class="list"></div>
+          </div>
+          <div class="panel">
+            <h3>Detail chatu</h3>
+            <div id="chatMessages" class="messages"></div>
+            <form id="sendMessageForm" class="inline-form">
+              <input id="messageInput" type="text" placeholder="Napis zpravu" />
+              <button type="submit" class="primary">Odeslat</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section id="profile" class="section">
+        <div class="section-header">
+          <h2>Profil</h2>
+          <label for="profileUserSelect">Zobrazit profil</label>
+          <select id="profileUserSelect"></select>
+        </div>
+        <div class="profile-grid">
+          <div class="panel">
+            <h3>Info</h3>
+            <div id="profileInfo"></div>
+            <div class="actions">
+              <button id="likeProfileButton">Like</button>
+              <div class="rating">
+                <label for="ratingSelect">Hodnoceni</label>
+                <select id="ratingSelect">
+                  <option value="5">5</option>
+                  <option value="4">4</option>
+                  <option value="3">3</option>
+                  <option value="2">2</option>
+                  <option value="1">1</option>
+                </select>
+                <button id="rateProfileButton">Ohodnotit</button>
+              </div>
+            </div>
+            <form id="commentForm" class="inline-form">
+              <input id="commentInput" type="text" placeholder="Napis komentar" />
+              <button type="submit">Pridat</button>
+            </form>
+          </div>
+          <div class="panel">
+            <h3>Komentare</h3>
+            <div id="profileComments" class="list"></div>
+          </div>
+          <div class="panel">
+            <h3>Inzeraty uzivatele</h3>
+            <div id="profileAds" class="list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="dating" class="section">
+        <div class="section-header">
+          <h2>Seznamka (opt-in)</h2>
+          <label class="toggle">
+            <input id="datingToggle" type="checkbox" />
+            <span>Zapnout viditelnost</span>
+          </label>
+        </div>
+        <div id="datingList" class="card-grid"></div>
+      </section>
+
+      <section id="swipe" class="section">
+        <div class="section-header">
+          <h2>Hodnoceni inzeratu</h2>
+        </div>
+        <div class="split">
+          <div class="panel">
+            <h3>Tinder pro inzeraty</h3>
+            <div id="swipeCard" class="swipe-card"></div>
+            <div class="actions">
+              <button id="dislikeButton">Nelibi</button>
+              <button id="likeButton" class="primary">Libi</button>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Soukroma analytika</h3>
+            <label for="analyticsAdSelect">Vyber muj inzerat</label>
+            <select id="analyticsAdSelect"></select>
+            <div id="analyticsResult" class="analytics"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast"></div>
+    <script src="app.js"></script>
+  </body>
+</html>

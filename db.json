@@ -1,0 +1,141 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "username": "marta",
+      "displayName": "Marta Novakova",
+      "bio": "Prodam a nakupuji hlavne elektroniku. Odpovidam rychle.",
+      "likes": ["u2"],
+      "ratings": [
+        {
+          "id": "r1",
+          "fromUserId": "u2",
+          "stars": 5,
+          "comment": "Rychle jednani a vse bez problemu.",
+          "createdAt": "2026-06-01T09:00:00.000Z"
+        }
+      ],
+      "comments": [
+        {
+          "id": "c1",
+          "fromUserId": "u3",
+          "text": "Spolehliva prodejkyne, doporucuji.",
+          "createdAt": "2026-06-01T10:30:00.000Z"
+        }
+      ],
+      "datingOptIn": true,
+      "datingBio": "Hledam partaka na kolo a vylet."
+    },
+    {
+      "id": "u2",
+      "username": "petr",
+      "displayName": "Petr Kral",
+      "bio": "Zajima me vybaveni do garaze a pracovni nabidky.",
+      "likes": [],
+      "ratings": [],
+      "comments": [],
+      "datingOptIn": false,
+      "datingBio": ""
+    },
+    {
+      "id": "u3",
+      "username": "jana",
+      "displayName": "Jana Svobodova",
+      "bio": "Delam aukce retro her a konzoli.",
+      "likes": ["u1"],
+      "ratings": [
+        {
+          "id": "r2",
+          "fromUserId": "u1",
+          "stars": 4,
+          "comment": "Vse ok, jen mensi zpozdeni.",
+          "createdAt": "2026-05-30T15:20:00.000Z"
+        }
+      ],
+      "comments": [],
+      "datingOptIn": true,
+      "datingBio": "Hudba, hry a dobry kafe."
+    }
+  ],
+  "ads": [
+    {
+      "id": "a1",
+      "ownerId": "u1",
+      "type": "offer",
+      "title": "iPhone 12 Pro 128GB",
+      "description": "Stav jako novy, bez skrabancu, komplet baleni.",
+      "price": 12990,
+      "location": "Praha",
+      "status": "active",
+      "createdAt": "2026-06-01T08:00:00.000Z",
+      "updatedAt": "2026-06-01T08:00:00.000Z"
+    },
+    {
+      "id": "a2",
+      "ownerId": "u2",
+      "type": "request",
+      "title": "Shanim pouzity aku vrtak",
+      "description": "Potrebujeme do dilny funkcni vrtak, klidne starsi.",
+      "price": 1500,
+      "location": "Brno",
+      "status": "active",
+      "createdAt": "2026-06-01T11:00:00.000Z",
+      "updatedAt": "2026-06-01T11:00:00.000Z"
+    },
+    {
+      "id": "a3",
+      "ownerId": "u3",
+      "type": "job",
+      "title": "Brigada: pomoc ve skladu",
+      "description": "2-3 dny v tydnu, flexibilni cas.",
+      "price": 170,
+      "location": "Ostrava",
+      "status": "active",
+      "createdAt": "2026-06-01T12:00:00.000Z",
+      "updatedAt": "2026-06-01T12:00:00.000Z"
+    },
+    {
+      "id": "a4",
+      "ownerId": "u1",
+      "type": "auction",
+      "title": "Retro Nintendo set",
+      "description": "Aukce startuje na 1000 Kc, konci v patek.",
+      "price": 1000,
+      "location": "Praha",
+      "status": "active",
+      "createdAt": "2026-06-01T13:00:00.000Z",
+      "updatedAt": "2026-06-01T13:00:00.000Z"
+    }
+  ],
+  "chats": [
+    {
+      "id": "ch1",
+      "participants": ["u1", "u2"],
+      "messages": [
+        {
+          "id": "m1",
+          "fromUserId": "u2",
+          "toUserId": "u1",
+          "text": "Je iPhone stale aktualni?",
+          "sentAt": "2026-06-01T09:10:00.000Z"
+        }
+      ]
+    }
+  ],
+  "swipes": [
+    {
+      "id": "s1",
+      "adId": "a1",
+      "fromUserId": "u2",
+      "liked": true,
+      "swipedAt": "2026-06-01T09:30:00.000Z"
+    },
+    {
+      "id": "s2",
+      "adId": "a2",
+      "fromUserId": "u3",
+      "liked": false,
+      "swipedAt": "2026-06-01T10:00:00.000Z"
+    }
+  ]
+}

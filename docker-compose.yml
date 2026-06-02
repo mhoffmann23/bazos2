@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  bazos2:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./db.json:/app/db.json
+      - ./public:/app/public
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
