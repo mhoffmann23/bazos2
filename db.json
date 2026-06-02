@@ -213,6 +213,27 @@
       "fromUserId": "u3",
       "liked": true,
       "swipedAt": "2026-06-02T12:52:34.201Z"
+    },
+    {
+      "id": "e46c6d93-18f4-4b52-9f6a-6469a871d78f",
+      "adId": "a4",
+      "fromUserId": "u2",
+      "liked": true,
+      "swipedAt": "2026-06-02T12:54:39.386Z"
+    },
+    {
+      "id": "4e5e3681-2376-4d23-8307-d2850e9850ed",
+      "adId": "acf0ce6e-e950-493d-b863-799b3b9c9990",
+      "fromUserId": "u2",
+      "liked": true,
+      "swipedAt": "2026-06-02T12:54:40.491Z"
+    },
+    {
+      "id": "1bcbc908-62c0-4bb6-9bc3-c9e9cb6e33b4",
+      "adId": "a3",
+      "fromUserId": "u2",
+      "liked": false,
+      "swipedAt": "2026-06-02T12:54:41.579Z"
     }
   ]
 }
