@@ -136,10 +136,13 @@ async function loadAds() {
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
-      <h4>${escapeHtml(ad.title)}</h4>
-      <p>${escapeHtml(ad.description)}</p>
-      <p class="meta">Typ: ${escapeHtml(ad.type)} | Cena: ${ad.price ?? 'N/A'} | Lokace: ${escapeHtml(ad.location || '-')}</p>
-      <p class="meta">Autor: ${escapeHtml(getUserName(ad.ownerId))}</p>
+      <div>
+        <h4><a href="#">${escapeHtml(ad.title)}</a></h4>
+        <p>${escapeHtml(ad.description)}</p>
+        <p class="meta">Typ: ${escapeHtml(ad.type)} | Lokace: ${escapeHtml(ad.location || '-')}</p>
+        <p class="meta">Autor: ${escapeHtml(getUserName(ad.ownerId))}</p>
+      </div>
+      <div class="price">${ad.price ? escapeHtml(ad.price.toLocaleString()) + ' Kč' : 'Dohodou'}</div>
     `;
     elements.adsList.appendChild(card);
   });

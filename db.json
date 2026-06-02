@@ -160,6 +160,13 @@
           "toUserId": "u1",
           "text": "Je iPhone stale aktualni?",
           "sentAt": "2026-06-01T09:10:00.000Z"
+        },
+        {
+          "id": "6069056d-f4ce-452a-a4fa-740a87431d18",
+          "fromUserId": "u1",
+          "toUserId": "u2",
+          "text": "5896",
+          "sentAt": "2026-06-02T12:56:20.011Z"
         }
       ]
     }
@@ -234,6 +241,41 @@
       "fromUserId": "u2",
       "liked": false,
       "swipedAt": "2026-06-02T12:54:41.579Z"
+    },
+    {
+      "id": "e5d224c1-61e0-4518-9a3d-33dd15e07aa4",
+      "adId": "acf0ce6e-e950-493d-b863-799b3b9c9990",
+      "fromUserId": "7d8c9bd9-b254-4a73-a5bf-5bb18096ecc4",
+      "liked": true,
+      "swipedAt": "2026-06-02T12:56:50.712Z"
+    },
+    {
+      "id": "cdaf3983-167a-46e9-a9d9-4990ba622e6d",
+      "adId": "a2",
+      "fromUserId": "7d8c9bd9-b254-4a73-a5bf-5bb18096ecc4",
+      "liked": false,
+      "swipedAt": "2026-06-02T12:56:51.480Z"
+    },
+    {
+      "id": "3eef6074-e29f-4f80-8708-8eb715db31a0",
+      "adId": "a3",
+      "fromUserId": "7d8c9bd9-b254-4a73-a5bf-5bb18096ecc4",
+      "liked": true,
+      "swipedAt": "2026-06-02T12:56:52.313Z"
+    },
+    {
+      "id": "86ab71f7-e6b4-4f0e-a75e-362a14742f0e",
+      "adId": "a4",
+      "fromUserId": "7d8c9bd9-b254-4a73-a5bf-5bb18096ecc4",
+      "liked": false,
+      "swipedAt": "2026-06-02T12:56:53.185Z"
+    },
+    {
+      "id": "4112ecc9-a073-41ce-aa0a-bfedee75803f",
+      "adId": "a1",
+      "fromUserId": "7d8c9bd9-b254-4a73-a5bf-5bb18096ecc4",
+      "liked": true,
+      "swipedAt": "2026-06-02T12:56:53.864Z"
     }
   ]
 }
